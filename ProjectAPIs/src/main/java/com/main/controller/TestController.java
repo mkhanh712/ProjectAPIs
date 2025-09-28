@@ -5,6 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController{
 	public TestController() {
-		System.err.println("a");
+		System.err.println("test");
 	}
 }
