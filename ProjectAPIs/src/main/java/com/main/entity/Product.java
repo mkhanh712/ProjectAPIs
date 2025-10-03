@@ -3,6 +3,8 @@ package com.main.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.main.DTO.ProductDTO;
+
 import jakarta.persistence.*;
 import lombok.*;
 
