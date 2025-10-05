@@ -11,7 +11,7 @@ import com.main.service.ProductService;
 @RestController
 public class ProductController {
 	@Autowired
-	ProductService productService;
+	private ProductService productService;
 	
 	// GET /products?categoryId=1&page=0&size=5
 	@GetMapping("/get/products")
