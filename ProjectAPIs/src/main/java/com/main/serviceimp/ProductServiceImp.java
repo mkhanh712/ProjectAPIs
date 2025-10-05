@@ -34,8 +34,7 @@ public class ProductServiceImp implements ProductService {
 		Product product = productRepository.findById(id)
 				.orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(
 			        HttpStatus.NOT_FOUND, "Product not found with id: " + id
-			    )
-		);
+			    ));
 		return new ProductDTO(
 				product.getId(),
 				product.getName(),
