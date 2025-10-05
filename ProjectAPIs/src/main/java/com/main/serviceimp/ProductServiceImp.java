@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.main.DTO.ProductDTO;
 import com.main.entity.Product;
@@ -32,7 +33,7 @@ public class ProductServiceImp implements ProductService {
 	@Override
 	public ProductDTO getProductById(Long id) {
 		Product product = productRepository.findById(id)
-				.orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(
+				.orElseThrow(() -> new ResponseStatusException(
 			        HttpStatus.NOT_FOUND, "Product not found with id: " + id
 			    ));
 		return new ProductDTO(
