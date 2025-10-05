@@ -3,6 +3,8 @@ package com.main.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.Getter;
@@ -24,6 +26,7 @@ public class Product {
 	private String name;
 	
 	private String description;
+	
 	private LocalDateTime createdAt;
 	
 	@ManyToOne
