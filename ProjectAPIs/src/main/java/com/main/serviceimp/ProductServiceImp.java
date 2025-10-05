@@ -13,7 +13,7 @@ import com.main.service.ProductService;
 @Service
 public class ProductServiceImp implements ProductService {
 	@Autowired
-	ProductRepository productRepository;
+	private ProductRepository productRepository;
 	
 	@Override
 	public Page<ProductDTO> getProductsByCategory(Long categoryId, Pageable pageable){
@@ -22,7 +22,23 @@ public class ProductServiceImp implements ProductService {
 				p.getId(),
 				p.getName(),
 				p.getDescription(),
+				p.getCreatedAt(),
+				p.getCategory().getId(),
 				p.getCategory().getName()
 		));
+	}
+	
+	@Override
+	public ProductDTO getProductById(Long id) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Product not found with id: " +id));
+		return new ProductDTO(
+				product.getId(),
+				product.getName(),
+				product.getDescription(),
+				product.getCreatedAt(),
+				product.getCategory().getId(),
+				product.getCategory().getName()
+		);
 	}
 }

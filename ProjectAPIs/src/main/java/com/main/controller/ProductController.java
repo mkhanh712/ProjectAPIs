@@ -21,4 +21,9 @@ public class ProductController {
 			@RequestParam(defaultValue = "5") int size){
 		return productService.getProductsByCategory(categoryId, PageRequest.of(page, size));
 	}
+	
+	@GetMapping("/get/product/id={id}")
+	public ProductDTO getProductById(@PathVariable Long id) {
+		return productService.getProductById(id);
+	}
 }

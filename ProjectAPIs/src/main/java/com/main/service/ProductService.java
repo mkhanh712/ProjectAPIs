@@ -7,4 +7,5 @@ import com.main.DTO.ProductDTO;
 
 public interface ProductService {
 	Page<ProductDTO> getProductsByCategory(Long categoryId, Pageable pageable);
+	ProductDTO getProductById(Long id);
 }
