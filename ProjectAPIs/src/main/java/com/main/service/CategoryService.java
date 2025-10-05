@@ -2,8 +2,8 @@ package com.main.service;
 
 import java.util.List;
 
-import com.main.entity.Category;
+import com.main.DTO.CategoryDTO;
 
 public interface CategoryService {
-	List<Category> getAllCategories();
+	List<CategoryDTO> getAllCategories();
 }
