@@ -6,9 +6,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import com.main.DTO.ProductDTO;
+import com.main.DTO.ProductRequestDTO;
+import com.main.entity.Product;
 import com.main.service.ProductService;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
 	@Autowired
 	private ProductService productService;
@@ -25,5 +28,15 @@ public class ProductController {
 	@GetMapping("/get/product/id={id}")
 	public ProductDTO getProductById(@PathVariable Long id) {
 		return productService.getProductById(id);
+	}
+	
+	@PostMapping
+	public Product createProduct(@RequestBody ProductRequestDTO dto) {
+		return productService.createProduct(dto);
+	}
+	
+	@PutMapping("/{id}")
+	public Product updateProduct(@PathVariable long id, @RequestBody ProductRequestDTO dto) {
+		return productService.updateProduct(id , dto);
 	}
 }

@@ -8,7 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.main.DTO.ProductDTO;
+import com.main.DTO.ProductRequestDTO;
+import com.main.entity.Category;
 import com.main.entity.Product;
+import com.main.repository.CategoryRepository;
 import com.main.repository.ProductRepository;
 import com.main.service.ProductService;
 
@@ -16,6 +19,8 @@ import com.main.service.ProductService;
 public class ProductServiceImp implements ProductService {
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@Override
 	public Page<ProductDTO> getProductsByCategory(Long categoryId, Pageable pageable){
@@ -44,5 +49,31 @@ public class ProductServiceImp implements ProductService {
 				product.getCategory().getId(),
 				product.getCategory().getName()
 		);
+	}
+	
+	@Override
+	public Product createProduct(ProductRequestDTO dto) {
+		Category category = categoryRepository.findById(dto.getCategoryId())
+				.orElseThrow(() -> new ResponseStatusException(
+						HttpStatus.NOT_FOUND, "Category not found "));
+		Product product = new Product();
+		product.setName(dto.getName());
+		product.setDescription(dto.getDescription());
+		product.setCategory(category);
+		return productRepository.save(product);
+	}
+	
+	@Override
+	public Product updateProduct(Long id, ProductRequestDTO dto) {
+		Product product = productRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(
+						HttpStatus.NOT_FOUND, "Product not found" ));
+		Category category = categoryRepository.findById(dto.getCategoryId())
+				.orElseThrow(() -> new ResponseStatusException(
+						HttpStatus.NOT_FOUND, "Category not found "));
+		product.setName(dto.getName());
+		product.setDescription(dto.getDescription());
+		product.setCategory(category);
+		return productRepository.save(product);			
 	}
 }
