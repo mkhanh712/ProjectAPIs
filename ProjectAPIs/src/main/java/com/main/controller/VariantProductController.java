@@ -18,7 +18,7 @@ public class VariantProductController {
 		return variantProductService.createVProduct(dto);
 	}
 	
-	@GetMapping("/vproductid={id}")
+	@PutMapping("/vproductid={id}")
 	public VariantProduct updateVProduct(@PathVariable long id, @RequestBody VariantRequestDTO dto) {
 		return variantProductService.updateVProduct(id, dto);
 	}
