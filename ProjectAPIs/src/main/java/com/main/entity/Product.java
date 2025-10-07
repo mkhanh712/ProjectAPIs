@@ -2,9 +2,7 @@ package com.main.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.Getter;
@@ -27,6 +25,8 @@ public class Product {
 	
 	private String description;
 	
+	@CreationTimestamp
+    @Column(updatable = false)
 	private LocalDateTime createdAt;
 	
 	@ManyToOne
