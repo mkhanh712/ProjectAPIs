@@ -1,10 +1,12 @@
 package com.main.serviceimp;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.main.DTO.VariantProductDTO;
 import com.main.DTO.VariantRequestDTO;
 import com.main.entity.Product;
 import com.main.entity.VariantProduct;
@@ -49,5 +51,18 @@ public class VariantProductServiceImp implements VariantProductService {
 		vproduct.setStockQuantity(dto.getStockQuantity());
 		vproduct.setProduct(product);
 		return variantProductRepository.save(vproduct);
-	}	
+	}
+	
+	@Override
+	public VariantProductDTO getByProductId(Long productId){
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new ResponseStatusException(
+						HttpStatus.NOT_FOUND, "Product not found"));
+		List<VariantProduct> variants = variantProductRepository.findByProductId(productId);
+		VariantProductDTO dto = new VariantProductDTO();
+		dto.setProductId(product.getId());
+		dto.setProductName(product.getName());
+		dto.setVariants(variants);
+		return dto;	
+	}
 }
