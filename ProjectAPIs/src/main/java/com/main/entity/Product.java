@@ -3,13 +3,10 @@ package com.main.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.Getter;
-import lombok.Setter;
+
 
 @Table(name = "products")
 @AllArgsConstructor
@@ -34,7 +31,6 @@ public class Product {
 	
 	@ManyToOne
 	@JoinColumn(name = "category_id")
-	@JsonIgnore
 	private Category category;
 	
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.main.DTO.VariantProductDTO;
 import com.main.DTO.VariantRequestDTO;
+import com.main.DTO.VariantItemDTO;
 import com.main.entity.Product;
 import com.main.entity.VariantProduct;
 import com.main.repository.ProductRepository;
@@ -53,16 +54,27 @@ public class VariantProductServiceImp implements VariantProductService {
 		return variantProductRepository.save(vproduct);
 	}
 	
+	//VariantItemDTO ko chứa product, lấy các dữ liệu fields từ variants(List<variantproduct>)
+	// và map vào variantsDTO nên khi return sẽ ko trả ra product nữa
 	@Override
 	public VariantProductDTO getByProductId(Long productId){
 		Product product = productRepository.findById(productId)
 				.orElseThrow(() -> new ResponseStatusException(
 						HttpStatus.NOT_FOUND, "Product not found"));
 		List<VariantProduct> variants = variantProductRepository.findByProductId(productId);
-		VariantProductDTO dto = new VariantProductDTO();
-		dto.setProductId(product.getId());
-		dto.setProductName(product.getName());
-		dto.setVariants(variants);
-		return dto;	
+		List<VariantItemDTO> variantsDTO = variants.stream()
+				.map(v -> new VariantItemDTO(
+						v.getId(),
+						v.getSku(),
+		                v.getColor(),
+		                v.getSize(),
+		                v.getPrice(),
+		                v.getStockQuantity()
+			))
+				.toList();						
+		return new VariantProductDTO(
+				product.getId(),
+				product.getName(),
+				variantsDTO);	
 	}
 }
