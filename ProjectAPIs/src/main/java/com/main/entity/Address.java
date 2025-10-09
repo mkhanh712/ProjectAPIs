@@ -22,6 +22,6 @@ public class Address {
 	private String zipcode;
 	
 	@ManyToOne
-	@JoinColumn(name = "used_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 }
