@@ -5,6 +5,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Table(name = "carts")
@@ -19,10 +21,12 @@ public class Cart {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
+	@CreationTimestamp
+    @Column(updatable = false)
 	private LocalDateTime createdAt;
 	
 	@OneToOne
-	@JoinColumn(name = "used_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 	
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
