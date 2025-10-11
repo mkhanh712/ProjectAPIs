@@ -65,11 +65,11 @@
         <scope>provided</scope>
     </dependency>
 
-   <!-- Security (cho phần login, register, phân quyền) 
+   <!-- Security (cho phần login, register, phân quyền) -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-security</artifactId>
-    </dependency> -->
+    </dependency> 
 
     <!-- Validation (cho DTO request, entity validation) -->
     <dependency>
