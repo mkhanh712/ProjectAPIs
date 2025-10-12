@@ -15,11 +15,31 @@ public class VariantProductController {
 	private VariantProductService variantProductService;
 	
 	@PostMapping
+	/**
+	{
+	  "sku": "xxx",
+	  "color": "xxx",
+	  "size": "x",
+	  "price": xxx,
+	  "stockQuantity": x,
+	  "productId": x
+	}
+	 */
 	public VariantProduct createVProduct(@RequestBody VariantRequestDTO dto) {
 		return variantProductService.createVProduct(dto);
 	}
 	
 	@PutMapping("/vproductid={id}")
+	/**
+	{
+	  "sku": "xxx",
+	  "color": "xxx",
+	  "size": "x",
+	  "price": xxx,
+	  "stockQuantity": x,
+	  "productId": x
+	}
+	 */
 	public VariantProduct updateVProduct(@PathVariable long id, @RequestBody VariantRequestDTO dto) {
 		return variantProductService.updateVProduct(id, dto);
 	}

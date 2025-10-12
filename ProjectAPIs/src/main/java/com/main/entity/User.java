@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class User {
 	private String username;
 	
 	@Column(nullable = false)
+	@JsonIgnore
 	private String password;
 	
 	@Column(nullable = false, unique = true)

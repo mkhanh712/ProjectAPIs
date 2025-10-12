@@ -31,11 +31,25 @@ public class ProductController {
 	}
 	
 	@PostMapping
+		/**
+		{
+		  "name": "xxx",
+		  "description": "xxx",
+		  "categoryId": x
+		}
+		*/
 	public Product createProduct(@RequestBody ProductRequestDTO dto) {
 		return productService.createProduct(dto);
 	}
 	
 	@PutMapping("/productid={id}")
+	/**
+	{
+	  "name": "xxx",
+	  "description": "xxx",
+	  "categoryId": x
+	}
+	*/
 	public Product updateProduct(@PathVariable long id, @RequestBody ProductRequestDTO dto) {
 		return productService.updateProduct(id , dto);
 	}
