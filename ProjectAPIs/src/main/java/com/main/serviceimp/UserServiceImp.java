@@ -40,12 +40,12 @@ public class UserServiceImp implements UserService {
 		user.setPassword(encodedPassword);
 		user.setEmail(dto.getEmail());
 		user.setRoles(roles);
-		User savedUser = userRepository.save(user);
-		Cart cart = new Cart();
-		cart.setUser(savedUser);
-		Cart savedCart = cartRepository.save(cart);
-		savedUser.setCart(savedCart);
-		return savedUser;
+		User savedUser = userRepository.save(user); //lưu user vào db trước
+		Cart cart = new Cart();  
+		cart.setUser(savedUser); //object cart được set thông tin của user đã lưu trước đó
+		Cart savedCart = cartRepository.save(cart); //lưu cart vào db sau khi đã có user 
+		savedUser.setCart(savedCart); //gắn cart vào obj savedCart vừa tạo để trả ra bên dưới
+		return savedUser;//trả ra file json sau khi đky chứa các thông tin ở trên trong obj savedUser
 	}
 	
 }
