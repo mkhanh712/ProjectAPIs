@@ -16,6 +16,13 @@ public class UserController {
 	private UserService userService;
 	
 	@PostMapping("/register")
+	/**
+	 {
+	 	"username": "aaa",
+	 	"password": "aaaaa",
+	 	"email": "aaa@gmail.com"
+	 }
+	 */
 	public User registerUser(@Valid @RequestBody RegisterRequestDTO dto) {
 		return userService.registerUser(dto);
 	}
