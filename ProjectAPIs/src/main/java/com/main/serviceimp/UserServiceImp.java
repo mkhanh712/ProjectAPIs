@@ -43,7 +43,8 @@ public class UserServiceImp implements UserService {
 		User savedUser = userRepository.save(user);
 		Cart cart = new Cart();
 		cart.setUser(savedUser);
-		cartRepository.save(cart);
+		Cart savedCart = cartRepository.save(cart);
+		savedUser.setCart(savedCart);
 		return savedUser;
 	}
 	

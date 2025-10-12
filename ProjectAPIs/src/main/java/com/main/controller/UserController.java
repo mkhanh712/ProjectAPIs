@@ -7,14 +7,16 @@ import com.main.DTO.RegisterRequestDTO;
 import com.main.entity.User;
 import com.main.service.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/user")
 public class UserController {
 	@Autowired
 	private UserService userService;
 	
 	@PostMapping("/register")
-	public User registerUser(@RequestBody RegisterRequestDTO dto) {
+	public User registerUser(@Valid @RequestBody RegisterRequestDTO dto) {
 		return userService.registerUser(dto);
 	}
 }

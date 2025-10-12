@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Table(name = "carts")
 @AllArgsConstructor
@@ -27,6 +28,7 @@ public class Cart {
 	
 	@OneToOne
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private User user; 
 	
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
