@@ -1,25 +1,39 @@
 package com.main.security;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import javax.crypto.SecretKey;
+
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-	private final Key jwtSecretKey;
+	private final String secretRaw;
+	private SecretKey jwtSecretKey;
 	private final long jwtExpirationMs;
 	
 	public JwtTokenProvider(
-			@Value("${jwt.secret}") String secret,						
+			@Value("${jwt.secret}") String secretRaw,						
 			@Value("${jwt.expiration}") long jwtExpirationMs
 	){
-		this.jwtSecretKey = Keys.hmacShaKeyFor(secret.getBytes());
+		this.secretRaw = secretRaw;
 		this.jwtExpirationMs = jwtExpirationMs;
+	}
+	
+	@PostConstruct
+	private void init() {
+		try {
+			byte[] decoded = Decoders.BASE64.decode(secretRaw);
+			this.jwtSecretKey = Keys.hmacShaKeyFor(decoded);
+		}catch(Exception ex) {
+			this.jwtSecretKey = Keys.hmacShaKeyFor(secretRaw.getBytes());
+		}
 	}
 	
 	public String generateToken(String username) {
@@ -36,11 +50,11 @@ public class JwtTokenProvider {
 	
 	public String getUsernameFromToken(String token) {
 		return Jwts.parser()
-				.verifyWith((SecretKey)jwtSecretKey)
-				.build()
-				.parseSignedClaims(token)
-				.getPayload()
-				.getSubject();
+                .verifyWith(jwtSecretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
 	}
 	
 	public boolean validateToken(String token) {
@@ -48,7 +62,7 @@ public class JwtTokenProvider {
 			Jwts.parser()
 					.verifyWith((SecretKey)jwtSecretKey)
 					.build()
-					.parserSignedClaims(token);
+					.parseSignedClaims(token);
 			return true;
 		}catch(Exception e) {
 			return false;
