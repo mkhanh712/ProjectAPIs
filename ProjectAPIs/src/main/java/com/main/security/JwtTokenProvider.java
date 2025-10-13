@@ -2,45 +2,55 @@ package com.main.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-
+import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-	@Value("${jwt.secret}")
-	private String jwtSecret;
+	private final Key jwtSecretKey;
+	private final long jwtExpirationMs;
 	
-	@Value("${jwt.expiration}")
-	private long jwtExpirationMs;
+	public JwtTokenProvider(
+			@Value("${jwt.secret}") String secret,						
+			@Value("${jwt.expiration}") long jwtExpirationMs
+	){
+		this.jwtSecretKey = Keys.hmacShaKeyFor(secret.getBytes());
+		this.jwtExpirationMs = jwtExpirationMs;
+	}
 	
 	public String generateToken(String username) {
 		Date now = new Date();
 		Date expiry = new Date(now.getTime() + jwtExpirationMs);
 		
 		return Jwts.builder()
-				.setSubject(username)
-				.setIssuedAt(now)
-				.setExpiration(expiry)
-				.signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS512)
+				.subject(username)
+				.issuedAt(now)
+				.expiration(expiry)
+				.signWith(jwtSecretKey)
 				.compact();
 	}
 	
 	public String getUsernameFromToken(String token) {
 		return Jwts.parser()
-				.setSigningKey(jwtSecret)
-				.parseClaimsJws(token)
-				.getBody()
+				.verifyWith((SecretKey)jwtSecretKey)
+				.build()
+				.parseSignedClaims(token)
+				.getPayload()
 				.getSubject();
 	}
 	
 	public boolean validateToken(String token) {
 		try {
-			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+			Jwts.parser()
+					.verifyWith((SecretKey)jwtSecretKey)
+					.build()
+					.parserSignedClaims(token);
 			return true;
-		}catch(JwtException | IllegalArgumentException e) {
+		}catch(Exception e) {
 			return false;
 		}
 	}
