@@ -31,7 +31,7 @@ public class SecurityConfig {
             	.requestMatchers("/api/auth/**").permitAll()
             	.requestMatchers("/api/admin/**").hasRole("ADMIN")
             	.requestMatchers("/api/user/**").hasAnyRole("ADMIN", "USER")
-                .anyRequest().permitAll()  // Tạm thời cho phép tất cả để test
+                .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
