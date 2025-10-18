@@ -28,6 +28,8 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
             .authorizeHttpRequests(auth -> auth
+            	.requestMatchers("/api/auth/**").permitAll()
+            	.requestMatchers("/api/public/**").permitAll()
                 .anyRequest().permitAll()  // Tạm thời cho phép tất cả để test
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
