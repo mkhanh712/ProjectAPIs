@@ -31,8 +31,8 @@ public class UserServiceImp implements UserService {
 			throw new RuntimeException("Username existed!");
 		}
 		String encodedPassword = passwordEncoder.encode(dto.getPassword());
-		Role roleUser = roleRepository.findByName("USER")
-				.orElseThrow(() -> new RuntimeException("Role USER chưa tồn tại!"));
+		Role roleUser = roleRepository.findByName("ROLE_USER")
+				.orElseThrow(() -> new RuntimeException("Role ROLE_USER chưa tồn tại!"));
 		List<Role> roles = new ArrayList<>();
 		roles.add(roleUser);
 		User user = new User();
