@@ -26,7 +26,7 @@ public class VariantProductServiceImp implements VariantProductService {
 	public VariantProduct createVProduct(VariantRequestDTO dto) {
 		Product product = productRepository.findById(dto.getProductId())
 				.orElseThrow(() -> new ResponseStatusException(
-						HttpStatus.NOT_FOUND, "Product not found" ));
+						HttpStatus.NOT_FOUND, "Product not found")); //ResponseStatusException(status, reason)
 		VariantProduct vproduct = new VariantProduct();
 		vproduct.setSku(dto.getSku());
 		vproduct.setColor(dto.getColor());
