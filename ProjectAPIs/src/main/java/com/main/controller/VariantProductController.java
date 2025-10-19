@@ -9,12 +9,12 @@ import com.main.entity.VariantProduct;
 import com.main.service.VariantProductService;
 
 @RestController
-@RequestMapping("/vproducts")
+@RequestMapping("/api")
 public class VariantProductController {
 	@Autowired
 	private VariantProductService variantProductService;
 	
-	@PostMapping
+	@PostMapping("/admin/createVProduct")
 	/**
 	{
 	  "sku": "xxx",
@@ -29,7 +29,7 @@ public class VariantProductController {
 		return variantProductService.createVProduct(dto);
 	}
 	
-	@PutMapping("/vproductid={id}")
+	@PutMapping("/admin/updateVProduct/vproductid={id}")
 	/**
 	{
 	  "sku": "xxx",
@@ -44,7 +44,7 @@ public class VariantProductController {
 		return variantProductService.updateVProduct(id, dto);
 	}
 	
-	@GetMapping("/getByProductId={productId}")
+	@GetMapping("/public/getByProductId={productId}")
 	public VariantProductDTO getByProductId(@PathVariable Long productId) {
 		return variantProductService.getByProductId(productId);
 	}
