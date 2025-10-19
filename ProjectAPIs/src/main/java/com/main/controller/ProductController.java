@@ -25,7 +25,7 @@ public class ProductController {
 		return productService.getProductsByCategory(categoryId, PageRequest.of(page, size));
 	}
 	
-	@GetMapping("/public/get/product/id={id}")
+	@GetMapping("/public/get/product/{id}")
 	public ProductDTO getProductById(@PathVariable Long id) {
 		return productService.getProductById(id);
 	}

@@ -50,8 +50,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
+        } catch (io.jsonwebtoken.JwtException ex) {
+            logger.error("Invalid JWT token", ex);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"Invalid or expired JWT Token\"}");
+            return; 
         } catch (Exception ex) {
-            logger.error("Could not set user authentication in security context", ex);
+            logger.error("Error processing JWT authentication", ex);
         }
         filterChain.doFilter(request, response);
     }
