@@ -10,7 +10,7 @@ import com.main.service.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/public")
 public class UserController {
 	@Autowired
 	private UserService userService;
