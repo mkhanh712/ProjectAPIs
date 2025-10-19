@@ -8,6 +8,7 @@ import com.main.DTO.CategoryDTO;
 import com.main.service.CategoryService;
 
 @RestController
+@RequestMapping("/api/public")
 public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;

@@ -18,7 +18,7 @@ import com.main.entity.Role;
 import com.main.entity.User;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/public")
 public class AuthController {
 	@Autowired
 	private UserRepository userRepository;
