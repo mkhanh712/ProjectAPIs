@@ -11,13 +11,13 @@ import com.main.entity.Product;
 import com.main.service.ProductService;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api")
 public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
 	// GET /products?categoryId=1&page=0&size=5
-	@GetMapping("/get/products")
+	@GetMapping("/public/get/products")
 	public Page<ProductDTO> getProductsByCategory(
 			@RequestParam Long categoryId,
 			@RequestParam(defaultValue = "0") int page,
@@ -25,12 +25,12 @@ public class ProductController {
 		return productService.getProductsByCategory(categoryId, PageRequest.of(page, size));
 	}
 	
-	@GetMapping("/get/product/id={id}")
+	@GetMapping("/public/get/product/id={id}")
 	public ProductDTO getProductById(@PathVariable Long id) {
 		return productService.getProductById(id);
 	}
 	
-	@PostMapping
+	@PostMapping("/admin/createProduct")
 		/**
 		{
 		  "name": "xxx",
@@ -42,7 +42,7 @@ public class ProductController {
 		return productService.createProduct(dto);
 	}
 	
-	@PutMapping("/productid={id}")
+	@PutMapping("/admin/updateProduct/productid={id}")
 	/**
 	{
 	  "name": "xxx",
