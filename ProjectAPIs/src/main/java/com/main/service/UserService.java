@@ -7,6 +7,6 @@ import com.main.entity.User;
 
 public interface UserService {
 	User registerUser(RegisterRequestDTO dto);
-	UserDTO getUserByUsername(String username);
-	UserDTO updateUserByUsername(String username, UserUpdateDTO dto);
+	UserDTO getCurrentUser(String username);
+	UserDTO updateCurrentUser(String username, UserUpdateDTO dto);
 }
