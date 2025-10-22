@@ -1,12 +1,20 @@
 package com.main.serviceimp;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.main.DTO.AddressDTO;
 import com.main.DTO.RegisterRequestDTO;
+import com.main.DTO.UserDTO;
+import com.main.DTO.UserUpdateDTO;
 import com.main.entity.User;
+import com.main.entity.Address;
 import com.main.entity.Cart;
 import com.main.entity.Role;
 import com.main.repository.CartRepository;
@@ -48,4 +56,41 @@ public class UserServiceImp implements UserService {
 		return savedUser;//trả ra file json sau khi đky chứa các thông tin ở trên trong obj savedUser
 	}
 	
+	@Override
+	public UserDTO getCurrentUser(String username) {
+		User user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
+		 List<AddressDTO> addresses = user.getAddresses() != null
+	                ? user.getAddresses().stream()
+	                        .map(a -> new AddressDTO(
+	                        		a.getStreet(), 
+	                        		a.getCity(),
+	                                a.getState(), 
+	                                a.getCountry(), 
+	                                a.getZipcode()
+	                                )
+	                        	)
+	                        .collect(Collectors.toList())
+	                : List.of();;
+        return new UserDTO(
+        		user.getId(), 
+        		user.getUsername(), 
+        		user.getEmail(), 
+        		addresses
+        		);
+    }
+	
+	@Override
+    public UserDTO updateCurrentUser(String username, UserUpdateDTO dto) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!"));
+        if (dto.getEmail() != null && !dto.getEmail().isBlank()) {
+            user.setEmail(dto.getEmail());
+        }
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+        userRepository.save(user);
+        return getCurrentUser(username);
+    }
 }
