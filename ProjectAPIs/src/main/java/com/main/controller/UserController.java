@@ -36,7 +36,13 @@ public class UserController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         return ResponseEntity.ok(userService.getCurrentUser(username));
     }
-
+	
+	/**
+	 {
+	 	"email": "aaa@gmail.com",
+	 	"password": "aaaaa"
+	 }
+	 */
     @PutMapping("/user/updateme")
     public ResponseEntity<UserDTO> updateCurrentUser(@RequestBody UserUpdateDTO dto) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
