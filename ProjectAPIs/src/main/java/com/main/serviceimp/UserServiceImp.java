@@ -63,6 +63,7 @@ public class UserServiceImp implements UserService {
 		 List<AddressDTO> addresses = user.getAddresses() != null
 	                ? user.getAddresses().stream()
 	                        .map(a -> new AddressDTO(
+	                        		a.getId(),
 	                        		a.getStreet(), 
 	                        		a.getCity(),
 	                                a.getState(), 
