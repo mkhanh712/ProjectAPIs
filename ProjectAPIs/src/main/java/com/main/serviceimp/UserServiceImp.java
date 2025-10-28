@@ -77,7 +77,8 @@ public class UserServiceImp implements UserService {
         		user.getId(), 
         		user.getUsername(), 
         		user.getEmail(), 
-        		addresses
+        		addresses,
+        		user.getCart()
         		);
     }
 	
