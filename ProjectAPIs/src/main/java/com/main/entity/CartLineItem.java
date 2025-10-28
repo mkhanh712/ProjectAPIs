@@ -1,5 +1,7 @@
 package com.main.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +23,11 @@ public class CartLineItem {
 	
 	@ManyToOne
 	@JoinColumn(name = "cart_id")
+	@JsonIgnore
 	private Cart cart;
 	
 	@ManyToOne
 	@JoinColumn(name = "variant_product_id")
+	@JsonIgnore
 	private VariantProduct variantProduct;
 }
