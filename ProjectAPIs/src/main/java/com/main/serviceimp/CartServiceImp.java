@@ -61,6 +61,15 @@ public class CartServiceImp implements CartService {
 			items.add(item);
 		}
 		
+		items.forEach(i -> {
+			VariantProduct v = i.getVariantProduct();
+			if(i.getUnitPrice() != v.getPrice()) {
+				i.setUnitPrice(v.getPrice());
+				i.setTotalPrice(i.getQuantity() * v.getPrice());
+				cartLineItemRepository.save(i);
+			}
+		});
+		
 		double totalPrice = items.stream()
 				.mapToDouble(CartLineItem::getTotalPrice)
 				.sum();
