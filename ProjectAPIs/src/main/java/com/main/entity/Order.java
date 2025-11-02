@@ -24,16 +24,15 @@ public class Order {
     private LocalDateTime orderDate;
 
     private String status; 
-
     private Double totalPrice;
-
     private String shippingAddress;
+    private String recipientName;
+    private String phone;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "order_id")
-    private List<CartLineItem> items;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetail> orderDetails;
 }
